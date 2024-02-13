@@ -3,6 +3,12 @@ import { InputWrap } from "./Components/InputWrap";
 import { TelephoneInput } from "./Components/TelephoneInput";
 import { useState } from "react";
 import { errorMessages } from "../data/errorMessages";
+import {
+  isEmailValid,
+  isFirstNameValid,
+  isLastNameValid,
+  isCityValid,
+} from "../utils/validations.js";
 
 const errors = errorMessages;
 
@@ -38,6 +44,23 @@ export const FunctionalForm = () => {
       placeholder: "Hobbiton",
     },
   ];
+  const validateForm = () => {
+    return (
+      isFirstNameValid(firstName) &&
+      isLastNameValid(lastName) &&
+      isEmailValid(email) &&
+      isCityValid(city)
+    );
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      alert("Form Submitted");
+    } else {
+      alert("Form Invalid");
+    }
+  };
   return (
     <form>
       <u>
@@ -46,11 +69,17 @@ export const FunctionalForm = () => {
 
       {/* first name input */}
       <InputWrap inputProps={inputProps[0]} />
-      <ErrorMessage message={errors.firstNameErrorMessage} show={true} />
+      <ErrorMessage
+        message={errors.firstNameErrorMessage}
+        show={!isFirstNameValid(firstName)}
+      />
 
       {/* last name input */}
       <InputWrap inputProps={inputProps[1]} />
-      <ErrorMessage message={errors.lastNameErrorMessage} show={true} />
+      <ErrorMessage
+        message={errors.lastNameErrorMessage}
+        show={!isLastNameValid(lastName)}
+      />
 
       {/* Email Input */}
       <InputWrap inputProps={inputProps[2]} />
@@ -66,7 +95,7 @@ export const FunctionalForm = () => {
 
       <ErrorMessage message={errors.phoneNumberErrorMessage} show={true} />
 
-      <input type="submit" value="Submit" />
+      <input type="submit" value="Submit" onClick={onSubmit} />
     </form>
   );
 };
