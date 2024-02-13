@@ -1,12 +1,43 @@
 import { ErrorMessage } from "../ErrorMessage";
+import { InputWrap } from "./Components/InputWrap";
+import { TelephoneInput } from "./Components/TelephoneInput";
+import { useState } from "react";
+import { errorMessages } from "../data/errorMessages";
 
-const firstNameErrorMessage = "First name must be at least 2 characters long";
-const lastNameErrorMessage = "Last name must be at least 2 characters long";
-const emailErrorMessage = "Email is Invalid";
-const cityErrorMessage = "State is Invalid";
-const phoneNumberErrorMessage = "Invalid Phone Number";
+const errors = errorMessages;
 
 export const FunctionalForm = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [city, setCity] = useState("");
+
+  const inputProps = [
+    {
+      value: firstName,
+      onChange: (e) => setFirstName(e.target.value),
+      labelText: "First Name",
+      placeholder: "Bilbo",
+    },
+    {
+      value: lastName,
+      onChange: (e) => setLastName(e.target.value),
+      labelText: "Last Name",
+      placeholder: "Baggins",
+    },
+    {
+      value: email,
+      onChange: (e) => setEmail(e.target.value),
+      labelText: "Email",
+      placeholder: "bilbo-baggins@adventurehobbits.net",
+    },
+    {
+      value: city,
+      onChange: (e) => setCity(e.target.value),
+      labelText: "City",
+      placeholder: "Hobbiton",
+    },
+  ];
   return (
     <form>
       <u>
@@ -14,47 +45,26 @@ export const FunctionalForm = () => {
       </u>
 
       {/* first name input */}
-      <div className="input-wrap">
-        <label>{"First Name"}:</label>
-        <input placeholder="Bilbo" />
-      </div>
-      <ErrorMessage message={firstNameErrorMessage} show={true} />
+      <InputWrap inputProps={inputProps[0]} />
+      <ErrorMessage message={errors.firstNameErrorMessage} show={true} />
 
       {/* last name input */}
-      <div className="input-wrap">
-        <label>{"Last Name"}:</label>
-        <input placeholder="Baggins" />
-      </div>
-      <ErrorMessage message={lastNameErrorMessage} show={true} />
+      <InputWrap inputProps={inputProps[1]} />
+      <ErrorMessage message={errors.lastNameErrorMessage} show={true} />
 
       {/* Email Input */}
-      <div className="input-wrap">
-        <label>{"Email"}:</label>
-        <input placeholder="bilbo-baggins@adventurehobbits.net" />
-      </div>
-      <ErrorMessage message={emailErrorMessage} show={true} />
+      <InputWrap inputProps={inputProps[2]} />
+      <ErrorMessage message={errors.emailErrorMessage} show={true} />
 
       {/* City Input */}
-      <div className="input-wrap">
-        <label>{"City"}:</label>
-        <input placeholder="Hobbiton" />
-      </div>
-      <ErrorMessage message={cityErrorMessage} show={true} />
+      <InputWrap inputProps={inputProps[3]} />
+      <ErrorMessage message={errors.cityErrorMessage} show={true} />
 
       <div className="input-wrap">
-        <label htmlFor="phone">Phone:</label>
-        <div id="phone-input-wrap">
-          <input type="text" id="phone-input-1" placeholder="55" />
-          -
-          <input type="text" id="phone-input-2" placeholder="55" />
-          -
-          <input type="text" id="phone-input-3" placeholder="55" />
-          -
-          <input type="text" id="phone-input-4" placeholder="5" />
-        </div>
+        <TelephoneInput />
       </div>
 
-      <ErrorMessage message={phoneNumberErrorMessage} show={true} />
+      <ErrorMessage message={errors.phoneNumberErrorMessage} show={true} />
 
       <input type="submit" value="Submit" />
     </form>
