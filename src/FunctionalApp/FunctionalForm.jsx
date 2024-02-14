@@ -10,7 +10,6 @@ import {
   isCityValid,
   isPhoneNumberValid,
 } from "../utils/validations.js";
-import { userData } from "../data/userData.js";
 const errors = errorMessages;
 
 export const FunctionalForm = () => {
@@ -57,14 +56,14 @@ export const FunctionalForm = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    userData.push({
+    console.log({
       firstName,
       lastName,
       email,
       city,
       telephoneNumber,
     });
-    console.log(userData);
+
     setFormSubmitted(true);
     // if (validateForm()) {
     //   alert("Form Submitted");
