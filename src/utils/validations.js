@@ -22,6 +22,6 @@ export function isCityValid(city) {
 }
 
 export function isPhoneNumberValid(phoneNumber) {
-  const regex = /^\d{10}$/;
+  const regex = /^\d{2}-\d{2}-\d{2}-\d{1}$/;
   return !!phoneNumber.match(regex) && phoneNumber !== null;
 }
