@@ -8,6 +8,10 @@ export const TelephoneInput = () => {
   const ref3 = refs[2];
   const ref4 = refs[3];
   const createOnChangeHandle = (index) => (e) => {
+    if (isNaN(e.target.value)) {
+      alert("Please enter a valid phone number");
+      return;
+    }
     const lengths = [2, 2, 2, 1];
     const currentLength = lengths[index];
     const nextRef = refs[index + 1];
@@ -19,11 +23,17 @@ export const TelephoneInput = () => {
     const newState = phoneInputState.map((phoneInput, phoneInputIndex) =>
       index === phoneInputIndex ? e.target.value : phoneInput
     );
-    if (shouldGoToNext) {
+    if (
+      shouldGoToNext &&
+      nextRef &&
+      index < 3 &&
+      value.length === currentLength
+    ) {
       nextRef.current.focus();
-    }
-    if (shouldGoToPrev) {
+    } else if (shouldGoToPrev && prevRef && index > 0) {
       prevRef.current.focus();
+    } else if (shouldGoToNext && index === 3) {
+      ref4.current.blur();
     }
     setPhoneInputState(newState);
   };
@@ -62,8 +72,8 @@ export const TelephoneInput = () => {
           id="phone-input-4"
           placeholder="5"
           ref={ref4}
-          value={phoneInputState[2]}
-          onChange={createOnChangeHandle(2)}
+          value={phoneInputState[3]}
+          onChange={createOnChangeHandle(3)}
         />
       </div>
     </div>

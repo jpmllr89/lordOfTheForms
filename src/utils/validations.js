@@ -1,3 +1,5 @@
+import { allCities } from "./all-cities";
+
 export function isEmailValid(emailAddress) {
   // eslint-disable-next-line no-useless-escape
   const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -13,5 +15,13 @@ export function isLastNameValid(lastName) {
 }
 
 export function isCityValid(city) {
-  return city.length > 1 && city !== null;
+  city = city.slice(0, 1).toUpperCase() + city.slice(1).toLowerCase();
+  if (allCities.includes(city)) {
+    return true;
+  }
+}
+
+export function isPhoneNumberValid(phoneNumber) {
+  const regex = /^\d{10}$/;
+  return !!phoneNumber.match(regex) && phoneNumber !== null;
 }

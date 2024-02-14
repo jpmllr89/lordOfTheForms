@@ -8,6 +8,7 @@ import {
   isFirstNameValid,
   isLastNameValid,
   isCityValid,
+  // isPhoneNumberValid,
 } from "../utils/validations.js";
 
 const errors = errorMessages;
@@ -17,6 +18,7 @@ export const FunctionalForm = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const inputProps = [
     {
@@ -44,22 +46,29 @@ export const FunctionalForm = () => {
       placeholder: "Hobbiton",
     },
   ];
-  const validateForm = () => {
-    return (
-      isFirstNameValid(firstName) &&
-      isLastNameValid(lastName) &&
-      isEmailValid(email) &&
-      isCityValid(city)
-    );
-  };
+  // const validateForm = () => {
+  //   return (
+  //     isFirstNameValid(firstName) &&
+  //     isLastNameValid(lastName) &&
+  //     isEmailValid(email) &&
+  //     isCityValid(city)
+  //   );
+  // };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      alert("Form Submitted");
-    } else {
-      alert("Form Invalid");
-    }
+    console.log({
+      firstName,
+      lastName,
+      email,
+      city,
+    });
+    setFormSubmitted(true);
+    // if (validateForm()) {
+    //   alert("Form Submitted");
+    // } else {
+    //   alert("Form Invalid");
+    // }
   };
   return (
     <form>
@@ -71,29 +80,41 @@ export const FunctionalForm = () => {
       <InputWrap inputProps={inputProps[0]} />
       <ErrorMessage
         message={errors.firstNameErrorMessage}
-        show={!isFirstNameValid(firstName)}
+        show={formSubmitted ? !isFirstNameValid(firstName) : false}
       />
 
       {/* last name input */}
       <InputWrap inputProps={inputProps[1]} />
       <ErrorMessage
         message={errors.lastNameErrorMessage}
-        show={!isLastNameValid(lastName)}
+        show={formSubmitted ? !isLastNameValid(firstName) : false}
       />
 
       {/* Email Input */}
       <InputWrap inputProps={inputProps[2]} />
-      <ErrorMessage message={errors.emailErrorMessage} show={true} />
+      <ErrorMessage
+        message={errors.emailErrorMessage}
+        show={formSubmitted ? !isEmailValid(email) : false}
+      />
 
       {/* City Input */}
       <InputWrap inputProps={inputProps[3]} />
-      <ErrorMessage message={errors.cityErrorMessage} show={true} />
+      <ErrorMessage
+        message={errors.cityErrorMessage}
+        show={formSubmitted ? !isCityValid(city) : false}
+      />
 
       <div className="input-wrap">
-        <TelephoneInput />
+        <TelephoneInput inputProps={inputProps[4]} />
       </div>
 
-      <ErrorMessage message={errors.phoneNumberErrorMessage} show={true} />
+      <ErrorMessage
+        message={errors.phoneNumberErrorMessage}
+        show={
+          // formSubmitted ? !isphoneNumberValid() :
+          false
+        }
+      />
 
       <input type="submit" value="Submit" onClick={onSubmit} />
     </form>
