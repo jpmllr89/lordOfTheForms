@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 
-export const TelephoneInput = () => {
+export const TelephoneInput = ({ setTelephoneNumber }) => {
   const [phoneInputState, setPhoneInputState] = useState(["", "", "", ""]);
   const refs = [useRef(null), useRef(null), useRef(null), useRef(null)];
   const ref1 = refs[0];
@@ -36,6 +36,9 @@ export const TelephoneInput = () => {
       ref4.current.blur();
     }
     setPhoneInputState(newState);
+
+    const fullNumber = newState.join("-");
+    setTelephoneNumber(fullNumber);
   };
   return (
     <div>

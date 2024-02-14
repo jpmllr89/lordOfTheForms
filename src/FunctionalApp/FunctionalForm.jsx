@@ -8,9 +8,9 @@ import {
   isFirstNameValid,
   isLastNameValid,
   isCityValid,
-  // isPhoneNumberValid,
+  isPhoneNumberValid,
 } from "../utils/validations.js";
-
+import { userData } from "../data/userData.js";
 const errors = errorMessages;
 
 export const FunctionalForm = () => {
@@ -18,8 +18,8 @@ export const FunctionalForm = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
+  const [telephoneNumber, setTelephoneNumber] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
-
   const inputProps = [
     {
       value: firstName,
@@ -57,12 +57,14 @@ export const FunctionalForm = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log({
+    userData.push({
       firstName,
       lastName,
       email,
       city,
+      telephoneNumber,
     });
+    console.log(userData);
     setFormSubmitted(true);
     // if (validateForm()) {
     //   alert("Form Submitted");
@@ -105,15 +107,12 @@ export const FunctionalForm = () => {
       />
 
       <div className="input-wrap">
-        <TelephoneInput inputProps={inputProps[4]} />
+        <TelephoneInput setTelephoneNumber={setTelephoneNumber} />
       </div>
 
       <ErrorMessage
         message={errors.phoneNumberErrorMessage}
-        show={
-          // formSubmitted ? !isphoneNumberValid() :
-          false
-        }
+        show={formSubmitted ? !isPhoneNumberValid(telephoneNumber) : false}
       />
 
       <input type="submit" value="Submit" onClick={onSubmit} />
