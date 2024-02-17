@@ -1,14 +1,60 @@
 import { Component } from "react";
 import { ErrorMessage } from "../ErrorMessage";
-import { TelephoneInput } from "../FunctionalApp/Components/TelephoneInput";
-
-const firstNameErrorMessage = "First name must be at least 2 characters long";
-const lastNameErrorMessage = "Last name must be at least 2 characters long";
-const emailErrorMessage = "Email is Invalid";
-const cityErrorMessage = "State is Invalid";
-const phoneNumberErrorMessage = "Invalid Phone Number";
+// import { ClassTelephoneInput } from "./Components/ClassTelephoneInput";
+import { ClassInputWrap } from "./Components/ClassInputWrap";
+import { errorMessages } from "../data/errorMessages";
+import {
+  isEmailValid,
+  isFirstNameValid,
+  isLastNameValid,
+  isCityValid,
+  // isPhoneNumberValid,
+} from "../utils/validations.js";
+const errors = errorMessages;
 
 export class ClassForm extends Component {
+  inputProps = [
+    {
+      label: "First Name",
+      placeholder: "Bilbo",
+      onChange: this.props.setFirstName,
+    },
+    {
+      label: "Last Name",
+      placeholder: "Baggins",
+      onChange: this.props.setLastName,
+    },
+    {
+      label: "Email",
+      placeholder: "",
+      onChange: this.props.setEmail,
+    },
+    {
+      label: "City",
+      placeholder: "Hobbiton",
+      onChange: this.props.setCity,
+    },
+  ];
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    if (
+      isFirstNameValid(this.props.firstName) &&
+      isLastNameValid(this.props.lastName) &&
+      isEmailValid(this.props.email) &&
+      isCityValid(this.props.city)
+    ) {
+      this.props.setSubmit({ submitted: true });
+    } else {
+      this.props.setSubmit({ submitted: false });
+      this.props.setFirstName("");
+      this.props.setLastName("");
+      this.props.setEmail("");
+      this.props.setCity("");
+      // this.props.setTelephoneNumber("");
+    }
+    // console.log({this.props.firstName, this.props.lastName, this.props.email, this.props.city, this.props.telephoneNumber});
+  };
   render() {
     return (
       <form>
@@ -17,41 +63,47 @@ export class ClassForm extends Component {
         </u>
 
         {/* first name input */}
-        <div className="input-wrap">
-          <label>{"First Name"}:</label>
-          <input placeholder="Bilbo" />
-        </div>
-        <ErrorMessage message={firstNameErrorMessage} show={true} />
+        <ClassInputWrap inputProps={this.inputProps[0]} />
+        <ErrorMessage
+          message={errors.firstNameErrorMessage}
+          show={
+            this.props.submitted
+              ? !isFirstNameValid(this.props.firstName)
+              : false
+          }
+        />
 
         {/* last name input */}
-        <div className="input-wrap">
-          <label>{"Last Name"}:</label>
-          <input placeholder="Baggins" />
-        </div>
-        <ErrorMessage message={lastNameErrorMessage} show={true} />
+        <ClassInputWrap inputProps={this.inputProps[1]} />
+        <ErrorMessage
+          message={errors.lastNameErrorMessage}
+          show={
+            this.props.submitted ? !isLastNameValid(this.props.lastName) : false
+          }
+        />
 
         {/* Email Input */}
-        <div className="input-wrap">
-          <label>{"Email"}:</label>
-          <input placeholder="bilbo-baggins@adventurehobbits.net" />
-        </div>
-        <ErrorMessage message={emailErrorMessage} show={true} />
+        <ClassInputWrap inputProps={this.inputProps[2]} />
+        <ErrorMessage
+          message={errors.emailErrorMessage}
+          show={this.props.submitted ? !isEmailValid(this.props.email) : false}
+        />
 
         {/* City Input */}
-        <div className="input-wrap">
-          <label>{"City"}:</label>
-          <input placeholder="Hobbiton" />
-        </div>
-        <ErrorMessage message={cityErrorMessage} show={true} />
+        <ClassInputWrap inputProps={this.inputProps[3]} />
+        <ErrorMessage
+          message={errors.cityErrorMessage}
+          show={this.props.submitted ? !isCityValid(this.props.city) : false}
+        />
 
         <div className="input-wrap">
           <label htmlFor="phone">Phone:</label>
-          <TelephoneInput />
+          {/* <ClassTelephoneInput telephoneNumber={this.props.telephoneNumber} /> */}
         </div>
 
-        <ErrorMessage message={phoneNumberErrorMessage} show={true} />
+        {/* <ErrorMessage message={phoneNumberErrorMessage} show={true} /> */}
 
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Submit" onClick={this.onSubmit} />
       </form>
     );
   }

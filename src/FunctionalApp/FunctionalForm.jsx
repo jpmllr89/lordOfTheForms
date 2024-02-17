@@ -13,7 +13,6 @@ import {
 const errors = errorMessages;
 
 export const FunctionalForm = ({ ...allStates }) => {
-  console.log(allStates);
   const inputProps = [
     {
       value: allStates.firstName,
@@ -43,15 +42,23 @@ export const FunctionalForm = ({ ...allStates }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // console.log(
-    //   allStates.firstName,
-    //   allStates.lastName,
-    //   allStates.email,
-    //   allStates.city,
-    //   allStates.telephoneNumber
-    // );
-
-    allStates.setFormSubmitted(true);
+    if (
+      isFirstNameValid(allStates.firstName) &&
+      isLastNameValid(allStates.lastName) &&
+      isEmailValid(allStates.email) &&
+      isCityValid(allStates.city) &&
+      isPhoneNumberValid(allStates.telephoneNumber)
+    ) {
+      allStates.setFormSubmitted(true);
+    } else {
+      console.log("donut");
+      allStates.setFirstName("");
+      allStates.setLastName("");
+      allStates.setEmail("");
+      allStates.setCity("");
+      allStates.setTelephoneNumber("");
+      allStates.setFormSubmitted(true);
+    }
   };
   return (
     <form>
