@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
-InputWrap.propTypes = {
+FunctionalTextInput.propTypes = {
   inputProps: PropTypes.shape({}),
 };
-export function InputWrap({ inputProps }) {
+export function FunctionalTextInput({ inputProps }) {
   return (
     <>
       <div className="input-wrap">

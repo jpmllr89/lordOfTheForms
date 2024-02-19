@@ -37,7 +37,8 @@ export const TelephoneInput = ({ setTelephoneNumber }) => {
     }
     setPhoneInputState(newState);
 
-    const fullNumber = newState.join("-");
+    const fullNumber = newState.join("");
+    console.log(fullNumber);
     setTelephoneNumber(fullNumber);
   };
   return (
