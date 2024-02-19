@@ -1,7 +1,6 @@
 import { ErrorMessage } from "../ErrorMessage";
-import { InputWrap } from "./Components/InputWrap";
+import { FunctionalTextInput } from "./Components/FunctionalTextInput.jsx";
 import { TelephoneInput } from "./Components/TelephoneInput";
-// import { useState } from "react";
 import { errorMessages } from "../data/errorMessages";
 import {
   isEmailValid,
@@ -10,31 +9,37 @@ import {
   isCityValid,
   isPhoneNumberValid,
 } from "../utils/validations.js";
+import { useState } from "react";
 const errors = errorMessages;
 
 export const FunctionalForm = ({ ...allStates }) => {
+  const [firstNameHolder, setFirstNameHolder] = useState("");
+  const [lastNameHolder, setLastNameHolder] = useState("");
+  const [emailHolder, setEmailHolder] = useState("");
+  const [cityHolder, setCityHolder] = useState("");
+
   const inputProps = [
     {
-      value: allStates.firstName,
-      onChange: (e) => allStates.setFirstName(e.target.value),
+      value: firstNameHolder,
+      onChange: (e) => setFirstNameHolder(e.target.value),
       labelText: "First Name",
       placeholder: "Bilbo",
     },
     {
-      value: allStates.lastName,
-      onChange: (e) => allStates.setLastName(e.target.value),
+      value: lastNameHolder,
+      onChange: (e) => setLastNameHolder(e.target.value),
       labelText: "Last Name",
       placeholder: "Baggins",
     },
     {
-      value: allStates.email,
-      onChange: (e) => allStates.setEmail(e.target.value),
+      value: emailHolder,
+      onChange: (e) => setEmailHolder(e.target.value),
       labelText: "Email",
       placeholder: "bilbo-baggins@adventurehobbits.net",
     },
     {
-      value: allStates.city,
-      onChange: (e) => allStates.setCity(e.target.value),
+      value: cityHolder,
+      onChange: (e) => setCityHolder(e.target.value),
       labelText: "City",
       placeholder: "Hobbiton",
     },
@@ -43,20 +48,32 @@ export const FunctionalForm = ({ ...allStates }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (
-      isFirstNameValid(allStates.firstName) &&
-      isLastNameValid(allStates.lastName) &&
-      isEmailValid(allStates.email) &&
-      isCityValid(allStates.city) &&
+      isFirstNameValid(firstNameHolder) &&
+      isLastNameValid(lastNameHolder) &&
+      isEmailValid(emailHolder) &&
+      isCityValid(cityHolder) &&
       isPhoneNumberValid(allStates.telephoneNumber)
     ) {
       allStates.setFormSubmitted(true);
+      allStates.setFirstName(firstNameHolder);
+      allStates.setLastName(lastNameHolder);
+      allStates.setEmail(emailHolder);
+      allStates.setCity(cityHolder);
     } else {
+      alert("Bad Inputs");
       console.log("donut");
-      allStates.setFirstName("");
-      allStates.setLastName("");
-      allStates.setEmail("");
-      allStates.setCity("");
-      allStates.setTelephoneNumber("");
+      // setFirstNameHolder("");
+      // setLastNameHolder("");
+      // setEmailHolder("");
+      // setCityHolder("");
+
+      isFirstNameValid(firstNameHolder) ? null : setFirstNameHolder("");
+      isLastNameValid(lastNameHolder) ? null : setLastNameHolder("");
+      isEmailValid(emailHolder) ? null : setEmailHolder("");
+      isCityValid(cityHolder) ? null : setCityHolder("");
+      isPhoneNumberValid(allStates.telephoneNumber)
+        ? null
+        : allStates.setTelephoneNumber("");
       allStates.setFormSubmitted(true);
     }
   };
@@ -67,39 +84,35 @@ export const FunctionalForm = ({ ...allStates }) => {
       </u>
 
       {/* first name input */}
-      <InputWrap inputProps={inputProps[0]} />
+      <FunctionalTextInput inputProps={inputProps[0]} />
       <ErrorMessage
         message={errors.firstNameErrorMessage}
         show={
-          allStates.formSubmitted
-            ? !isFirstNameValid(allStates.firstName)
-            : false
+          allStates.formSubmitted ? !isFirstNameValid(firstNameHolder) : false
         }
       />
 
       {/* last name input */}
-      <InputWrap inputProps={inputProps[1]} />
+      <FunctionalTextInput inputProps={inputProps[1]} />
       <ErrorMessage
         message={errors.lastNameErrorMessage}
         show={
-          allStates.formSubmitted
-            ? !isLastNameValid(allStates.firstName)
-            : false
+          allStates.formSubmitted ? !isLastNameValid(lastNameHolder) : false
         }
       />
 
       {/* Email Input */}
-      <InputWrap inputProps={inputProps[2]} />
+      <FunctionalTextInput inputProps={inputProps[2]} />
       <ErrorMessage
         message={errors.emailErrorMessage}
-        show={allStates.formSubmitted ? !isEmailValid(allStates.email) : false}
+        show={allStates.formSubmitted ? !isEmailValid(emailHolder) : false}
       />
 
       {/* City Input */}
-      <InputWrap inputProps={inputProps[3]} />
+      <FunctionalTextInput inputProps={inputProps[3]} />
       <ErrorMessage
         message={errors.cityErrorMessage}
-        show={allStates.formSubmitted ? !isCityValid(allStates.city) : false}
+        show={allStates.formSubmitted ? !isCityValid(cityHolder) : false}
       />
 
       <div className="input-wrap">
