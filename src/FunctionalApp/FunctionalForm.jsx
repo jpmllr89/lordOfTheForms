@@ -59,13 +59,13 @@ export const FunctionalForm = ({ ...allStates }) => {
       allStates.setLastName(lastNameHolder);
       allStates.setEmail(emailHolder);
       allStates.setCity(cityHolder);
-    } else {
-      alert("Bad Inputs");
-      console.log("donut");
       // setFirstNameHolder("");
       // setLastNameHolder("");
       // setEmailHolder("");
       // setCityHolder("");
+    } else {
+      alert("Bad Inputs");
+      console.log("donut");
 
       isFirstNameValid(firstNameHolder) ? null : setFirstNameHolder("");
       isLastNameValid(lastNameHolder) ? null : setLastNameHolder("");

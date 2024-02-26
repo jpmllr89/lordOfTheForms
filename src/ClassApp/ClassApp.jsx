@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { ClassForm } from "./ClassForm";
-import { ProfileInformation } from "../ProfileInformation";
+import { ClassProfileInformation } from "../ClassProfileInformation";
 
 // const defaultUser = {
 //   email: "default@default.com",
@@ -24,29 +24,43 @@ export class ClassApp extends Component {
     };
   }
   setFirstName = (e) => {
-    this.setState({ firstName: e.target.value });
+    this.setState({ firstName: e });
   };
   setLastName = (e) => {
-    this.setState({ lastName: e.target.value });
+    this.setState({ lastName: e });
   };
   setEmail = (e) => {
-    this.setState({ email: e.target.value });
+    this.setState({ email: e });
   };
   setCity = (e) => {
-    this.setState({ city: e.target.value });
+    this.setState({ city: e });
   };
   setTelephoneNumber = (e) => {
-    this.setState({ telephoneNumber: e.target.value });
+    this.setState({ telephoneNumber: e });
   };
   setSubmit = () => {
     this.setState({ submitted: true });
     console.log(this.state.submitted);
   };
+  // passThroughs = {
+  //   firstName: this.state.firstName,
+  //   lastName: this.state.lastName,
+  //   email: this.state.email,
+  //   city: this.state.city,
+  //   telephoneNumber: this.state.telephoneNumber,
+  //   submitted: this.state.submitted,
+  //   setFirstName: this.setFirstName,
+  //   setLastName: this.setLastName,
+  //   setEmail: this.setEmail,
+  //   setCity: this.setCity,
+  //   setTelephoneNumber: this.setTelephoneNumber,
+  //   setSubmit: this.setSubmit,
+  // };
   render() {
     return (
       <>
         <h2>Class</h2>
-        <ProfileInformation userData={this.state} />
+        <ClassProfileInformation {...this.state} />
         <ClassForm
           setFirstName={this.setFirstName}
           setLastName={this.setLastName}

@@ -9,95 +9,70 @@ export class ClassTelephoneInput extends Component {
       phoneInputState: ["", "", "", ""],
     };
 
-    this.reference = [
-      createRef(null),
-      createRef(null),
-      createRef(null),
-      createRef(null),
-    ];
+    // Create an array of refs
+    this.reference = Array.from({ length: 4 }, () => createRef());
   }
-  setPhoneInputState = (e) => {
-    this.setState({ phoneInputState: e.target.value });
-  };
-
-  ref1 = this.reference[0];
-  ref2 = this.reference[1];
-  ref3 = this.reference[2];
-  ref4 = this.reference[3];
 
   createOnChangeHandle = (index) => (e) => {
-    if (isNaN(e.target.value)) {
+    const { value } = e.target;
+
+    // Check if the value is a number
+    if (isNaN(value)) {
       alert("Please enter a valid phone number");
       return;
     }
+
+    // Define the lengths of each input section
     const lengths = [2, 2, 2, 1];
     const currentLength = lengths[index];
+
+    // Get the next and previous refs
     const nextRef = this.reference[index + 1];
     const prevRef = this.reference[index - 1];
-    const value = e.target.value;
 
-    const shouldGoToNext = currentLength === value.length;
-    const shouldGoToPrev = value.length === 0;
-    const newState = this.phoneInputState.map((phoneInput, phoneInputIndex) =>
-      index === phoneInputIndex ? e.target.value : phoneInput
+    // Update the state based on the new value
+    const newState = this.state.phoneInputState.map(
+      (phoneInput, phoneInputIndex) =>
+        index === phoneInputIndex ? value : phoneInput
     );
-    if (
-      shouldGoToNext &&
-      nextRef &&
-      index < 3 &&
-      value.length === currentLength
-    ) {
-      nextRef.current.focus();
-    } else if (shouldGoToPrev && prevRef && index > 0) {
-      prevRef.current.focus();
-    } else if (shouldGoToNext && index === 3) {
-      ref4.current.blur();
-    }
-    this.setTelephoneInput(newState);
 
-    const fullNumber = newState.join("-");
-    this.props.setTelephoneNumber(fullNumber);
+    // Update the state with the new phone input state
+    this.setState({ phoneInputState: newState });
+
+    // Focus on the next input if applicable
+    if (value.length === currentLength && nextRef && index < 3) {
+      nextRef.current.focus();
+    } else if (value.length === 0 && prevRef && index > 0) {
+      prevRef.current.focus();
+    } else if (value.length === currentLength && index === 3) {
+      // Blur the last input
+      this.reference[3].current.blur();
+    }
+
+    // Combine the phone input state into a full number
+    const fullNumber = newState.join("");
+
+    // Call the parent component's function to update the telephone number
+    this.props.setTelephoneNumberHolder(fullNumber);
   };
+
   render() {
     return (
       <>
         <div>
           <label htmlFor="telephone">Telephone:</label>
           <div id="phone-input-wrap">
-            <input
-              type="text"
-              id="phone-input-1"
-              placeholder="55"
-              ref={this.ref1}
-              value={this.phoneInputState[0]}
-              onChange={this.createOnChangeHandle(0)}
-            />
-            -
-            <input
-              type="text"
-              id="phone-input-2"
-              placeholder="55"
-              ref={this.ref2}
-              value={this.phoneInputState[1]}
-              onChange={this.createOnChangeHandle(1)}
-            />
-            -
-            <input
-              type="text"
-              id="phone-input-3"
-              placeholder="55"
-              ref={this.ref3}
-              value={this.phoneInputState[2]}
-              onChange={this.createOnChangeHandle(2)}
-            />
-            <input
-              type="text"
-              id="phone-input-4"
-              placeholder="5"
-              ref={this.ref4}
-              value={this.phoneInputState[3]}
-              onChange={this.createOnChangeHandle(3)}
-            />
+            {this.state.phoneInputState.map((value, index) => (
+              <input
+                key={index}
+                type="text"
+                id={`phone-input-${index + 1}`}
+                placeholder={index === 3 ? "5" : "55"}
+                ref={this.reference[index]}
+                value={value}
+                onChange={this.createOnChangeHandle(index)}
+              />
+            ))}
           </div>
         </div>
       </>
