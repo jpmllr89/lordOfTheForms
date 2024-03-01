@@ -31,16 +31,11 @@ export class ClassTelephoneInput extends Component {
     const prevRef = this.reference[index - 1];
 
     // Update the state based on the new value
-    const newState = this.state.phoneInputState.map(
-      (phoneInput, phoneInputIndex) =>
-        index === phoneInputIndex ? value : phoneInput
-    );
 
     // Update the state with the new phone input state
-    this.setState({ phoneInputState: newState });
 
     // Focus on the next input if applicable
-    if (value.length === currentLength && nextRef && index < 3) {
+    if ((value.length === currentLength) == 1 && nextRef && index < 3) {
       nextRef.current.focus();
     } else if (value.length === 0 && prevRef && index > 0) {
       prevRef.current.focus();
@@ -49,10 +44,20 @@ export class ClassTelephoneInput extends Component {
       this.reference[3].current.blur();
     }
 
+    let newState = this.state.phoneInputState.map(
+      (phoneInput, phoneInputIndex) =>
+        index === phoneInputIndex ? value : phoneInput
+    );
+
+    this.setState({ phoneInputState: newState });
+    console.log(newState);
+    console.log(this.state.phoneInputState);
+
     // Combine the phone input state into a full number
     const fullNumber = newState.join("");
 
     // Call the parent component's function to update the telephone number
+    console.log(fullNumber);
     this.props.setTelephoneNumberHolder(fullNumber);
   };
 

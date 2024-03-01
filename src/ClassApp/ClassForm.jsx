@@ -40,10 +40,7 @@ export class ClassForm extends Component {
     this.setState({ cityHolder: e.target.value });
   };
   setTelephoneNumberHolder = (e) => {
-    if (e && e.target && e.target.value) {
-      console.log(this.phoneNumberHolder);
-      this.setState({ phoneNumberHolder: e.target.value });
-    }
+    this.setState({ phoneNumberHolder: e });
   };
 
   onSubmit = (e) => {
