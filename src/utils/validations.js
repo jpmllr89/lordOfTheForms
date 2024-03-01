@@ -22,5 +22,6 @@ export function isCityValid(city) {
 }
 
 export function isPhoneNumberValid(phoneNumber) {
+  console.log("phone number is valid");
   return phoneNumber.length === 7 && phoneNumber !== null;
 }
