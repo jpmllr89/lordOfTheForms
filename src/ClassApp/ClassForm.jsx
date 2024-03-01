@@ -26,11 +26,11 @@ export class ClassForm extends Component {
   }
 
   setFirstNameHolder = (e) => {
-    console.log("first name received:", e.target.value);
+    // console.log("first name received:", e.target.value);
     this.setState({ firstNameHolder: e.target.value });
   };
   setLastNameHolder = (e) => {
-    console.log("last name received:", e.target.value);
+    // console.log("last name received:", e.target.value);
     this.setState({ lastNameHolder: e.target.value });
   };
   setEmailHolder = (e) => {
@@ -40,7 +40,10 @@ export class ClassForm extends Component {
     this.setState({ cityHolder: e.target.value });
   };
   setTelephoneNumberHolder = (e) => {
-    this.setState({ phoneNumberHolder: e.target.value });
+    if (e && e.target && e.target.value) {
+      console.log(this.phoneNumberHolder);
+      this.setState({ phoneNumberHolder: e.target.value });
+    }
   };
 
   onSubmit = (e) => {
@@ -162,7 +165,6 @@ export class ClassForm extends Component {
         <div className="input-wrap">
           <label htmlFor="phone">Phone:</label>
           <ClassTelephoneInput
-            telephoneNumber={this.props.telephoneNumber}
             setTelephoneNumberHolder={this.setTelephoneNumberHolder}
           />
         </div>

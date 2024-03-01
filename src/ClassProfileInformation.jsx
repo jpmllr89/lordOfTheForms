@@ -15,6 +15,7 @@ export class ClassProfileInformation extends Component {
     super(props);
   }
   render() {
+    // console.log(this.props.telephoneNumber);
     if (!this.props.submitted) {
       return (
         <>
@@ -27,6 +28,7 @@ export class ClassProfileInformation extends Component {
         </>
       );
     } else {
+      console.log(this.props.telephoneNumber);
       return (
         <>
           <u>

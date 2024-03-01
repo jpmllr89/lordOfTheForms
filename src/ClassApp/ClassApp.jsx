@@ -40,7 +40,7 @@ export class ClassApp extends Component {
   };
   setSubmit = () => {
     this.setState({ submitted: true });
-    console.log(this.state.submitted);
+    // console.log(this.state.submitted);
   };
   // passThroughs = {
   //   firstName: this.state.firstName,
